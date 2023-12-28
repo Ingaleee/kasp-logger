@@ -1,0 +1,99 @@
+﻿// using System.Data;
+// using System.Globalization;
+// using ConsoleApp1;
+//
+// // if (args.Length < 1)
+// // {
+// //     Console.WriteLine("Usage application arguments: [service_name] [logs_path]");
+// //     return;
+// // }
+//
+// var logPath = @"C:\Develop\Studing\kaspersky\file-test\logs";
+// var serviceName = "super_service";
+//
+// var report = new LogReport();
+//
+// var logs = Directory.GetFiles(logPath, $"{serviceName}.*", SearchOption.TopDirectoryOnly);
+//
+// // TODO: maybe we can use CreatedTime :|
+//
+// // GET EARLY LOG
+// var earlyLog = logs.MinBy(l =>
+// {
+//     var stringifyRotation = Path.GetFileNameWithoutExtension(l)
+//         .Replace($"{serviceName}.", string.Empty);
+//     return uint.TryParse(stringifyRotation, out var rotation) ? rotation : 0;
+// });
+//
+// var earlyRotationString = Path.GetFileNameWithoutExtension(earlyLog)
+//     .Replace($"{serviceName}.", string.Empty);
+// Int64.TryParse(earlyRotationString, out var earlyRotationNumber);
+//
+// // GET LATEST LOG
+// var latestLog = logs.MaxBy(l =>
+// {
+//     var stringifyRotation = Path.GetFileNameWithoutExtension(l)
+//         .Replace($"{serviceName}.", string.Empty);
+//     return uint.TryParse(stringifyRotation, out var rotation) ? rotation : 0;
+// });
+// var latestRotationString = Path.GetFileNameWithoutExtension(latestLog).Replace($"{serviceName}.", string.Empty);
+// Int64.TryParse(latestRotationString, out var latestRotationNumber);
+//
+// // GET ROTATION COUNT
+// var rotations = latestRotationNumber - earlyRotationNumber + 1;
+// report.Rotations = rotations;
+//
+// // GET TABLE FROM LOGS
+// var logTable = new DataTable("Log lines");
+// logTable.Columns.Add(new DataColumn("Date", typeof(DateTime)));
+// logTable.Columns.Add(new DataColumn("Severity", typeof(string)));
+// logTable.Columns.Add(new DataColumn("Category", typeof(string)));
+//
+// foreach (var log in logs)
+// {
+//     var logLines = await File.ReadAllLinesAsync(log);
+//     foreach (var line in logLines)
+//     {
+//         var rowed = line.Split(']').Select(x => x.Replace("[", "").Trim()).ToArray();
+//         var row = logTable.NewRow();
+//         
+//         var correctedTime = DateTime.TryParseExact(rowed[0], 
+//             "dd.MM.yyyy HH:mm:ss.fff",
+//             CultureInfo.InvariantCulture,  
+//             DateTimeStyles.None, 
+//             out var time);
+//         if (correctedTime)
+//         {
+//             row["Date"] = time;
+//         }
+//
+//         row["Severity"] = rowed[1];
+//         row["Category"] = rowed[2];
+//         logTable.Rows.Add(row);
+//     }
+// }
+//
+// var earlyLogWriteTime = (DateTime)logTable.AsEnumerable().Min(x => x["Date"]);
+// var latestLogWriteTime = (DateTime)logTable.AsEnumerable().Max(x => x["Date"]);
+// Console.WriteLine($"Early log write time: {earlyLogWriteTime:dd.MM.yyyy HH:mm:ss.fff}");
+// Console.WriteLine($"Latest log write time: {latestLogWriteTime:dd.MM.yyyy HH:mm:ss.fff}");
+//
+// var severities  = logTable.AsEnumerable().Select(x => x["Severity"] as string).ToList();
+// var uniqueSeverities = severities.Distinct();
+//
+// foreach (var item in uniqueSeverities)
+// {
+//     var count = severities.Count(x => x == item);
+//     var percent = (decimal)count / severities.Count * 100;
+//     Console.WriteLine($"Severity [{item}] count is {count} ({percent}%)");
+// }
+//
+// Console.WriteLine($"Log rotations: {rotations}");
+//
+//
+//
+
+public class OldSASA
+{
+    
+}
